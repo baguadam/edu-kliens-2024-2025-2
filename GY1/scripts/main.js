@@ -67,3 +67,11 @@ const observer = new IntersectionObserver(_.throttle(onObserve, 500), {
 });
 
 dataScrollElements.forEach((dse) => observer.observe(dse));
+
+// EXTRA - spread syntax:
+// array a dataScrollElements-ből:
+const dataArray = Array.from(dataScrollElements);
+// DE használhatunk spread syntaxot is: ...
+const dataArrayWithSpread = [...dataScrollElements];
+// az output mindkét esetben ugyanez lesz.
+// példák, részletesebb leírás: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
