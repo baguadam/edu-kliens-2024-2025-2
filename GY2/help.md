@@ -1,5 +1,7 @@
 # GY2
 
+A házi leírását és a kezdőcsomagot Teamsen az Általánosban találjátok!
+
 ## Osztályok - JavaScript
 
 A JS is lehetőséget biztosít objektumoritentált programozásra, így tudunk **osztályokat** definiálni, ez egészen hasonlóan működik, mint a többi nyelvben. JS-ben a classok tulajdonképpen "special function"-ök, így rájuk is működik, hogy:
