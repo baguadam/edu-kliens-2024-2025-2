@@ -1,0 +1,17 @@
+password-toggle-input {
+    display: inline-flex;
+    align-items: center;
+}
+
+password-toggle-input input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+password-toggle-input button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f4f4f4;
+    cursor: pointer;
+}
