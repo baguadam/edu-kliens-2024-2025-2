@@ -108,7 +108,7 @@ class SortableTable extends HTMLElement {
   }
 
   connectedCallback() {
-    console.log("Mostantól létezem");
+    console.log("Hozzá lettem adva a DOM-hoz!");
   }
 }
 ```
