@@ -235,3 +235,62 @@ const shadowButton = document
   .shadowRoot.querySelector("button");
 console.log(`SHADOW BUTTON: ${shadowButton.textContent}`);
 ```
+
+## Templates, Slots
+
+A template-ek segítségével újrahasznosítható HTML struktúrákat tudunk létrehozni, ezzel elkerülve azt, hogy ismételni kelljen nagyon sokszor önmagunkat. Ha van egy card például, amit többször szeretnénk megjeleníteni, készíthetünk számára egy template-et, így ezt kell csak mindig klózoznunk és befűznünk a megfelelő helyre.
+
+Alapvetően template-et az azonos nevű tag segítségével hozunk létre. Az így létrehozott rész nem fog megejelnni az oldalon, amíg annak a contentje nem fűződött be a DOM-ba.
+
+```HTML
+<template>
+  <div class="card">
+    <h2>Default title</h2>
+    <p>Default paragparh</p>
+  </div>
+</template>
+```
+
+Tehát csupán ezt hozzáadva a HTML-hez, nem fog semmi megjelenni. Készítsünk egy **custom-card** elementet, amiben egy template segítségével létrehozzunk egy cardot,adjunk neki egy megfelelő stílust. Használjunk Shadow DOM-ot!
+
+Ebben nem sok új lesz, az custom elementet úgy hozzuk létre, ahogy eddig, a Shadow DOM esetén is mindent ugyanúgy csinálunk, mint korábban. Ami itt érdekes lehet, hogy generálunk egy template elementet, majd annak az innerHTML-jébe definiáljuk a kártyánkat. A template-nek a klónozott kontentjét fűzzük be a shadow root alá.
+
+```js
+class CustomCard extends HTMLElement {
+  constructor() {
+    super();
+  }
+
+  connectedCallback() {
+    this.attachShadow({ mode: "open" });
+
+    this.generateTemplate();
+    // így tudjuk a template-nek a contentjét leklónozni (majd nyilván ezt appendelni a shadow roothoz. A paraméter itt, amit true-ként adunk meg arra vonatkozni, hog a teljes subtree-t vagy csak az adott node-ot szeretnénk-e klónozni. True: subtree)
+    this.shadowRoot.appendChild(this.template.content.cloneNode(true));
+  }
+
+  generateTemplate() {
+    this.template = document.createElement("template");
+    this.template.innerHTML = `
+      <style>
+        .card {
+            width: 100%;
+            background-color: white;
+            border-radius: 3px;
+            padding: 20px;
+            margin: 10px;
+            box-shadow: 2px 6px 6px gray;
+            border: 1px solid black;
+        }
+      </style>
+
+      <div class="card">
+        <h2>Default title</h2>
+        <p>Default paragparh</p>
+      </div>
+    `;
+  }
+}
+
+customElements.define("custom-card", CustomCard);
+```
