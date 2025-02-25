@@ -94,6 +94,7 @@ customElements.define("confirm-link", ConfirmLink, { extends: "a" });
 > Remélem, érezhető a különbség az előző órai, illetve az ezórai built-in element között. Sokadszor is hangúlyozva: célszerű ezt csinálni, ha csupán egy meglévő elementnek szeretnék egy plusz funkcionalitást adni, pl: legyen a táblázat rendezhető, a linknél kérdezze meg kattintásra, hogy biztos-e, stb.
 
 ## Shadow DOM
+
 A webkomponensek témakör alapvetően három nagy részre bomlik:
 
 1. Custom Elements
@@ -105,8 +106,132 @@ A célunk most az, hogy modulárissá tegyük a web komponensünket úgy, hogy n
 - **Encapsulation**: a stílusok és a scriptek a Shadow DOM-ban nincsenek hatással az outside world-re
 - **Scoped Styling**: a bent definiált stílusok elkülönülnek
 
+TODO: Shadow DOM ábra, kisebb magyarázat róla
+
 ### Button szeparáció
-Az alábbi példa jól demonstrálja a Shadow DOM lényegét, és annak működét. 
 
-Először is hozzunk létre egy egyszerű HTML fájlt, amiben helyezzünk el teljesen általános buttont, illetve előlegezzünk meg magunknak egy shadow-buttont is. Adjunk hozzá minimális stilizálást az oldalhoz. 
+Az alábbi példa jól demonstrálja a Shadow DOM lényegét, és annak működét.
 
+Először is hozzunk létre egy egyszerű HTML fájlt, amiben helyezzünk el teljesen általános buttont, illetve előlegezzünk meg magunknak egy shadow-buttont is. Adjunk hozzá minimális stilizálást az oldalhoz.
+
+```HTML
+<style>
+  button {
+    background-color: red;
+    color: white;
+    padding: 10px 20px;
+    width: 200px;
+    height: 40px;
+  }
+
+  button:hover {
+    background-color: brown;
+  }
+</style>
+
+...
+<button>LIGHT DOM BUTTON</button>
+<shadow-button></shadow-button>
+```
+
+Ezen a ponton nyilván csak a "LIGHT DOM BUTTON" szöveget tartalmazó gomb lesz látható a megfelelő stílussal, a **shadow-button**t még nem hoztuk létre.
+
+> Itt ugye már mindenki látja, hogy ha így akarom használni HTML-ben, akkor ez NEM egy "custom built-in element" lesz
+
+```js
+class ShadowButton extends HTMLElement {
+  constructor() {
+    super();
+  }
+}
+
+customElements.define("shadow-button", ShadowButton);
+```
+
+A következőkben három lépést fogunk követni:
+
+1. Hozzácsatoljuk a Shadow DOM-ot a shadow-buttonhöz.
+2. Létrehozunk benne egy buttont, amit hozzácsatolunk a shadow roothoz.
+3. Definiálunk benne valamilyen, a globálistól eltérő stílust a gombra.
+
+```js
+class ShadowButton extends HTMLElement {
+  constructor() {
+    super();
+  }
+
+  connectedCallback() {
+    // 1. lépés: Shadow DOM "bekötése"
+    this.attachShadow({ mode: "open" });
+
+    // 2. lépés: Létrehoztuk a buttont, majd hozzácsatoltuk a shadow roothoz
+    const shadowButton = document.createElement("button");
+    shadowButton.textContent = "SHADOW DOM BUTTON";
+    this.shadowRoot.appendChild(shadowButton);
+  }
+}
+
+customElements.define("shadow-button", ShadowButton);
+```
+
+Most ha ezen a ponton megállunk, még mielőtt bármi további stílust alkalmaznánk az így létrehozott gombunkra, akkor a következőt látjuk:
+
+TODO: IMG1
+
+És ponotsan ez az elvárt viselkedés: a Light DOM-ra definiált stílusok nem "másznak be" a Shadow DOM-ba. Most adjunk valamilyen stílust a Shadow DOM-ban létrehozott gombhoz. Ezt a legegyszerűen úgy tehetjük meg, ha az előbbi kódot kiegészítjuk egy létrehozott style-taggel, benne a kívánt stílussal:
+
+```js
+class ShadowButton extends HTMLElement {
+  constructor() {
+    super();
+  }
+
+  connectedCallback() {
+    // 1. lépés: Shadow DOM
+    this.attachShadow({ mode: "open" });
+
+    // 2. lépés: gomb
+    const shadowButton = document.createElement("button");
+    shadowButton.textContent = "SHADOW DOM BUTTON";
+
+    // 3. lépés: stílus
+    const style = document.createElement("style");
+    style.innerHTML = `
+        button {
+            background-color: blue;
+            color: white;
+            border-radius: 5px;
+            padding: 10px 20px;
+        }
+    `;
+
+    this.shadowRoot.append(style, shadowButton);
+  }
+}
+
+customElements.define("shadow-button", ShadowButton);
+```
+
+Ekkora az oldal a következőképpen néz ki:
+
+TODO: img2
+
+Ha pedig a szerkezetét is megvizsgáljuk:
+
+TODO: img3
+
+Láthatjuk, hogy a shadow-buttonön belül létrejött egy shadow root, ami alatt helyezkedik el a létrehozott style és button.
+
+Ha esetleg szeretnénk elérni a a gombokat, akkor a következőket tapasztalhatjuk:
+
+```js
+// Így csupán csak a Light DOM-ban megtalálható buttonöket tudjuk elérni, így most ez pontosan 1 darab gombot fog tartalmani, azt, amelyiknek "LIGHT DOM BUTTON" a szövege.
+const buttons = document.querySelectorAll("button");
+buttons.forEach((b) => console.log(`BUTTONS: ${b.textContent}`));
+
+// Ha a Shadow DOM-ban található gombot szeretnénk elérni, akkor azt a shadow rooton keresztül tudjuk megtenni. Ennek a hostja a shadow-button, így először bevesszük a shadow-buttont, majd ennek a shadow rootján keresztül egy selectorral ki tudjuk választani a benne található gombot.
+const shadowButton = document
+  .querySelector("shadow-button")
+  .shadowRoot.querySelector("button");
+console.log(`SHADOW BUTTON: ${shadowButton.textContent}`);
+```
