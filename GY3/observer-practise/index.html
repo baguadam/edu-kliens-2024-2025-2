@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Intersection Observer - Reveal on Scroll</title>
+    <link rel="stylesheet" href="./styles/style.css" />
+  </head>
+  <body>
+    <div class="spacer">Görgess le az elemek felfedéséhez!</div>
+
+    <div class="box hidden">Box 1</div>
+    <div class="box hidden">Box 2</div>
+    <div class="box hidden">Box 3</div>
+    <div class="box hidden">Box 4</div>
+  </body>
+
+  <script>
+    const boxes = document.querySelectorAll(".box");
+
+    const onObserve = (entries) => {
+      entries.forEach((entry) => {
+        entry.target.classList.toggle("visible", entry.isIntersecting);
+      });
+    };
+
+    const observer = new IntersectionObserver(onObserve, {
+      threshold: 0.6,
+    });
+
+    boxes.forEach((b) => observer.observe(b));
+  </script>
+</html>
