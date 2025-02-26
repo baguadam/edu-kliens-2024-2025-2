@@ -1,6 +1,6 @@
 # GY3
 
-A házit leírással és néhány infót a következő órai zh-ról Teamsen találtok az **Általánosban**
+Infókat a következő órai zh-ról Teamsen találtok az **Általánosban**
 
 ## Customized built-in element
 
@@ -63,7 +63,7 @@ customElements.define("sortable-table", SortableTable, { extends: "table" });
 
 ### Confirm Link - még egy példa
 
-Hasonlóképpen kellene eljárnunk akkor is, ha az lenne a feladat, hogy okosítsunk fel egy linket, ami kattintáskor nem navigál automatikus a megadott oldalra, hanem egy pop-upban megkérdezni, hogy biztosak vagyunk-e benne. Gondoljuk végig! Megint csak arról van szó, hogy egy meglévő elemet kell felokosítani. Nem akarunk új dolgot hozzáadni, semmi extrát csinálni. Csak az adott elem default viselkedésére van szükségünk, amit majd mi kibővítunk.
+Hasonlóképpen kellene eljárnunk akkor is, ha az lenne a feladat, hogy okosítsunk fel egy linket, ami kattintáskor nem navigál automatikus a megadott oldalra, hanem egy pop-upban megkérdezi, hogy biztosak vagyunk-e benne. Gondoljuk végig! Megint csak arról van szó, hogy egy meglévő elemet kell felokosítani. Nem akarunk új dolgot hozzáadni, semmi extrát csinálni. Csak az adott elem default viselkedésére van szükségünk, amit majd mi kibővítunk.
 
 ```js
 class ConfirmLink extends HTMLAnchorElement {
@@ -106,7 +106,28 @@ A célunk most az, hogy modulárissá tegyük a web komponensünket úgy, hogy n
 - **Encapsulation**: a stílusok és a scriptek a Shadow DOM-ban nincsenek hatással az outside world-re
 - **Scoped Styling**: a bent definiált stílusok elkülönülnek
 
-TODO: Shadow DOM ábra, kisebb magyarázat róla
+Az ábra egész jól reprezentálja a koncepciót. A következőket érdemes megérteni/megjegyezni:
+
+- **Shadow host**: az a node a Light DOM-ban, amihez a Shadow DOM-ot "attach"-oljuk.
+- **Shadow tree**: a DOM tree a Shadow DOM-ban
+- **Shadow root**: a Shadow DOM root node-ja
+
+Teljesen általánosan kód szintjén:
+
+```js
+// 1. bevesszük a hostot
+const host = document.querySelector("#host");
+
+// 2. hozzakapcsoljuk a Shadow DOM-ot
+const shadow = host.attachShadow({ mode: "open" }); // FONTOS: a mode-ot hagyjuk MINDIG open-en!
+
+// 3. legyártjuk az elemet
+const span = document.createElement("span");
+span.textContent = "HELLÓ A SHADOW DOM-BÓL";
+
+// 4. befűzzük a shadow root alá
+shadow.appendChild(span);
+```
 
 ### Button szeparáció
 
@@ -167,6 +188,8 @@ class ShadowButton extends HTMLElement {
     // 2. lépés: Létrehoztuk a buttont, majd hozzácsatoltuk a shadow roothoz
     const shadowButton = document.createElement("button");
     shadowButton.textContent = "SHADOW DOM BUTTON";
+
+    // teljesen ugyanaz, mintha egy standard DOM-beli elemhez csatolnám hozzá
     this.shadowRoot.appendChild(shadowButton);
   }
 }
@@ -178,7 +201,7 @@ Most ha ezen a ponton megállunk, még mielőtt bármi további stílust alkalma
 
 TODO: IMG1
 
-És ponotsan ez az elvárt viselkedés: a Light DOM-ra definiált stílusok nem "másznak be" a Shadow DOM-ba. Most adjunk valamilyen stílust a Shadow DOM-ban létrehozott gombhoz. Ezt a legegyszerűen úgy tehetjük meg, ha az előbbi kódot kiegészítjuk egy létrehozott style-taggel, benne a kívánt stílussal:
+És ponotsan ez az elvárt viselkedés: a Light DOM-ra definiált stílusok nem "másznak be" a Shadow DOM-ba. Most adjunk valamilyen stílust a Shadow DOM-ban létrehozott gombhoz. Ezt a legegyszerűen úgy tehetjük meg, ha az előbbi kódot kiegészítjuk egy létrehozott style-taggel, benne a kívánt stílussal. Ekkor az alkalmazott stílus a teljes Shadow DOM-ban érvényes lesz:
 
 ```js
 class ShadowButton extends HTMLElement {
@@ -220,7 +243,7 @@ Ha pedig a szerkezetét is megvizsgáljuk:
 
 TODO: img3
 
-Láthatjuk, hogy a shadow-buttonön belül létrejött egy shadow root, ami alatt helyezkedik el a létrehozott style és button.
+Láthatjuk, hogy a shadow-buttonön belül létrejött egy shadow root, ami alatt helyezkedik el a létrehozott style és button. Nyilván, hiszen pont ezt akartuk, amikor a shadow root-hoz ezeket appendeltük.
 
 Ha esetleg szeretnénk elérni a a gombokat, akkor a következőket tapasztalhatjuk:
 
@@ -266,7 +289,7 @@ class CustomCard extends HTMLElement {
 
     this.generateTemplate();
     // így tudjuk a template-nek a contentjét leklónozni (majd nyilván ezt appendelni a shadow roothoz.
-    //  A paraméter itt, amit true-ként adunk meg arra vonatkozni, hog a teljes subtree-t vagy csak az adott node-ot szeretnénk-e klónozni. True: subtree)
+    //  A paraméter itt, amit true-ként adunk meg arra vonatkozni, hogy a teljes subtree-t vagy csak az adott node-ot szeretnénk-e klónozni. True: subtree)
     this.shadowRoot.appendChild(this.template.content.cloneNode(true));
   }
 
@@ -302,12 +325,12 @@ Hogyan tudjuk ezt a HTML-ben haszálni? Hát, nyilván ugyanúgy, mint korábban
 <custom-card></custom-card>
 ```
 
-Oké, de ez ezen a ponton annyira nem izgalmas, hiszen mindigy ugyanaz a tartalom lesz jelen a custom-cardunkban, méghozzá az, amit a template-ben megadtunk. Hogyan tudnánk azt megoldani, hogy adjunk a komponensnek egy kis flexibilitást? Erre adnak egy dekleratív megoldást a **SLOT**ok
+Oké, de ez ezen a ponton annyira nem izgalmas, hiszen mindig ugyanaz a tartalom lesz jelen a custom-cardunkban, méghozzá az, amit a template-ben megadtunk. Hogyan tudnánk azt megoldani, hogy adjunk a komponensnek egy kis flexibilitást? Erre adnak egy dekleratív megoldást a **SLOT**ok
 
 A slotokra a nevűk által tudunk hivatkozni. Így például egy slot létrehozása az alábbi módon néz ki:
 
 ```HTML
-<!-- FONTOS: a névnek unique-nak kell lennie az adott shadow rootra nézve. Amelyiknek slotnak nem adunk name attribútumot, ő lesz a deafult slot. Később azok az elemek, amiket nem látunk el slot attribútummal, ők a default slothoz rendelődnek majd. A slot tagek között meg tudok egy default értéket, ami akkor displayelődik, ha nem csúsztatunk be semmit a slotba. -->
+<!-- FONTOS: a névnek unique-nak kell lennie az adott shadow rootra nézve. Amelyik slotnak nem adunk name attribútumot, ő lesz a deafult slot. Később azok az elemek, amiket nem látunk el slot attribútummal, ők a default slothoz rendelődnek majd. A slot tagek között meg tudok adni egy default értéket, ami akkor displayelődik, ha nem csúsztatunk be semmit a slotba. -->
 <slot name="title-slot">Default value</slot>
 ```
 
