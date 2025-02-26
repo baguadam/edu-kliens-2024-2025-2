@@ -108,7 +108,7 @@ class SortableTable extends HTMLElement {
   }
 
   connectedCallback() {
-    console.log("Mostantól létezem");
+    console.log("Hozzá lettem adva a DOM-hoz!");
   }
 }
 ```
@@ -142,6 +142,8 @@ Az órán megoldott feladatot részletesebb magyarázattal és kommentekkel kieg
 ## Még egy egyszerű példa: char-counter-input
 
 Gyakorlásként/segítségként/kiegészítésként, hogy érthetőbb legyen a koncepció, vegyünk végig egy egyszerű custom elementet. A cél most az, hogy egy input fieldet okosítsunk fel úgy, hogy a field alatt jelezzük, hogy a beállított maximum karakterszámból jelenleg mennyinél tartunk. Így például, ha 100 karakter a limit, beírtunk 20 karaktert, azt szeretnénk látni, hogy **20 / 100**
+
+![image](https://github.com/user-attachments/assets/f58f7d88-9922-4e6d-8c93-1b3e5e6eb2c4)
 
 Ennek a HTML része:
 
