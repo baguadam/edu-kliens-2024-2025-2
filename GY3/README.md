@@ -94,6 +94,7 @@ customElements.define("confirm-link", ConfirmLink, { extends: "a" });
 > Remélem, érezhető a különbség az előző órai, illetve az ezórai built-in element között. Sokadszor is hangúlyozva: célszerű ezt csinálni, ha csupán egy meglévő elementnek szeretnék egy plusz funkcionalitást adni, pl: legyen a táblázat rendezhető, a linknél kérdezze meg kattintásra, hogy biztos-e, stb.
 
 ## Shadow DOM
+[Még több a Shadow DOM-ról (innen van a kép is)](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM)
 
 A webkomponensek témakör alapvetően három nagy részre bomlik:
 
@@ -107,6 +108,8 @@ A célunk most az, hogy modulárissá tegyük a web komponensünket úgy, hogy n
 - **Scoped Styling**: a bent definiált stílusok elkülönülnek
 
 Az ábra egész jól reprezentálja a koncepciót. A következőket érdemes megérteni/megjegyezni:
+
+![image](https://github.com/user-attachments/assets/88c12877-f83c-4a59-bfcf-3e67dd02dde3)
 
 - **Shadow host**: az a node a Light DOM-ban, amihez a Shadow DOM-ot "attach"-oljuk.
 - **Shadow tree**: a DOM tree a Shadow DOM-ban
@@ -199,7 +202,7 @@ customElements.define("shadow-button", ShadowButton);
 
 Most ha ezen a ponton megállunk, még mielőtt bármi további stílust alkalmaznánk az így létrehozott gombunkra, akkor a következőt látjuk:
 
-TODO: IMG1
+![image](https://github.com/user-attachments/assets/4e70c64f-6bf0-465e-816f-f79149df8a8d)
 
 És ponotsan ez az elvárt viselkedés: a Light DOM-ra definiált stílusok nem "másznak be" a Shadow DOM-ba. Most adjunk valamilyen stílust a Shadow DOM-ban létrehozott gombhoz. Ezt a legegyszerűen úgy tehetjük meg, ha az előbbi kódot kiegészítjuk egy létrehozott style-taggel, benne a kívánt stílussal. Ekkor az alkalmazott stílus a teljes Shadow DOM-ban érvényes lesz:
 
@@ -237,11 +240,11 @@ customElements.define("shadow-button", ShadowButton);
 
 Ekkora az oldal a következőképpen néz ki:
 
-TODO: img2
+![image](https://github.com/user-attachments/assets/b7476d30-6521-4cb2-aeff-96a79e58d977)
 
 Ha pedig a szerkezetét is megvizsgáljuk:
 
-TODO: img3
+![image](https://github.com/user-attachments/assets/b026de9e-d7c2-483b-9053-943ad9fb82f1)
 
 Láthatjuk, hogy a shadow-buttonön belül létrejött egy shadow root, ami alatt helyezkedik el a létrehozott style és button. Nyilván, hiszen pont ezt akartuk, amikor a shadow root-hoz ezeket appendeltük.
 
