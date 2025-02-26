@@ -94,6 +94,7 @@ customElements.define("confirm-link", ConfirmLink, { extends: "a" });
 > Remélem, érezhető a különbség az előző órai, illetve az ezórai built-in element között. Sokadszor is hangúlyozva: célszerű ezt csinálni, ha csupán egy meglévő elementnek szeretnék egy plusz funkcionalitást adni, pl: legyen a táblázat rendezhető, a linknél kérdezze meg kattintásra, hogy biztos-e, stb.
 
 ## Shadow DOM
+
 [Még több a Shadow DOM-ról (innen van a kép is)](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM)
 
 A webkomponensek témakör alapvetően három nagy részre bomlik:
@@ -213,25 +214,26 @@ class ShadowButton extends HTMLElement {
   }
 
   connectedCallback() {
-    // 1. lépés: Shadow DOM
     this.attachShadow({ mode: "open" });
+    this.generateButton();
+    this.generateStyle();
+    this.shadowRoot.append(this.styleTag, this.button);
+  }
 
-    // 2. lépés: gomb
-    const shadowButton = document.createElement("button");
-    shadowButton.textContent = "SHADOW DOM BUTTON";
+  generateButton() {
+    this.button = document.createElement("button");
+    this.button.innerHTML = "SHADOW DOM BUTTON";
+  }
 
-    // 3. lépés: stílus
-    const style = document.createElement("style");
-    style.innerHTML = `
+  generateStyle() {
+    this.styleTag = document.createElement("style");
+    this.styleTag.innerHTML = `
         button {
             background-color: blue;
-            color: white;
             border-radius: 5px;
-            padding: 10px 20px;
+            border: 1px solid black;
         }
     `;
-
-    this.shadowRoot.append(style, shadowButton);
   }
 }
 
@@ -251,11 +253,14 @@ Láthatjuk, hogy a shadow-buttonön belül létrejött egy shadow root, ami alat
 Ha esetleg szeretnénk elérni a a gombokat, akkor a következőket tapasztalhatjuk:
 
 ```js
-// Így csupán csak a Light DOM-ban megtalálható buttonöket tudjuk elérni, így most ez pontosan 1 darab gombot fog tartalmani, azt, amelyiknek "LIGHT DOM BUTTON" a szövege.
+// Így csupán csak a Light DOM-ban megtalálható buttonöket tudjuk elérni, 
+// így most ez pontosan 1 darab gombot fog tartalmani, azt, amelyiknek "LIGHT DOM BUTTON" a szövege.
 const buttons = document.querySelectorAll("button");
 buttons.forEach((b) => console.log(`BUTTONS: ${b.textContent}`));
 
-// Ha a Shadow DOM-ban található gombot szeretnénk elérni, akkor azt a shadow rooton keresztül tudjuk megtenni. Ennek a hostja a shadow-button, így először bevesszük a shadow-buttont, majd ennek a shadow rootján keresztül egy selectorral ki tudjuk választani a benne található gombot.
+// Ha a Shadow DOM-ban található gombot szeretnénk elérni, akkor azt a shadow rooton keresztül tudjuk megtenni. 
+// Ennek a hostja a shadow-button, így először bevesszük a shadow-buttont, majd ennek a shadow rootján 
+// keresztül egy selectorral ki tudjuk választani a benne található gombot.
 const shadowButton = document
   .querySelector("shadow-button")
   .shadowRoot.querySelector("button");
@@ -333,7 +338,10 @@ Oké, de ez ezen a ponton annyira nem izgalmas, hiszen mindig ugyanaz a tartalom
 A slotokra a nevűk által tudunk hivatkozni. Így például egy slot létrehozása az alábbi módon néz ki:
 
 ```HTML
-<!-- FONTOS: a névnek unique-nak kell lennie az adott shadow rootra nézve. Amelyik slotnak nem adunk name attribútumot, ő lesz a deafult slot. Később azok az elemek, amiket nem látunk el slot attribútummal, ők a default slothoz rendelődnek majd. A slot tagek között meg tudok adni egy default értéket, ami akkor displayelődik, ha nem csúsztatunk be semmit a slotba. -->
+<!-- FONTOS: a névnek unique-nak kell lennie az adott shadow rootra nézve. 
+ Amelyik slotnak nem adunk name attribútumot, ő lesz a deafult slot. 
+ Később azok az elemek, amiket nem látunk el slot attribútummal, ők a default slothoz rendelődnek majd. A slot tagek között meg tudok adni egy default értéket, ami akkor displayelődik, 
+ ha nem csúsztatunk be semmit a slotba. -->
 <slot name="title-slot">Default value</slot>
 ```
 
