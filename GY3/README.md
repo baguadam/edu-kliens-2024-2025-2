@@ -214,9 +214,13 @@ class ShadowButton extends HTMLElement {
   }
 
   connectedCallback() {
+    // 1. attach-oljuk a Shadow DOM-ot
     this.attachShadow({ mode: "open" });
+    // 2. gomb létrehozása
     this.generateButton();
+    // 3. stílus létrehozása
     this.generateStyle();
+    // 4. befűzzük a shadow rootbe
     this.shadowRoot.append(this.styleTag, this.button);
   }
 
