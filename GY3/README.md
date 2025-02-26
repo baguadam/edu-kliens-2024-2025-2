@@ -265,7 +265,8 @@ class CustomCard extends HTMLElement {
     this.attachShadow({ mode: "open" });
 
     this.generateTemplate();
-    // így tudjuk a template-nek a contentjét leklónozni (majd nyilván ezt appendelni a shadow roothoz. A paraméter itt, amit true-ként adunk meg arra vonatkozni, hog a teljes subtree-t vagy csak az adott node-ot szeretnénk-e klónozni. True: subtree)
+    // így tudjuk a template-nek a contentjét leklónozni (majd nyilván ezt appendelni a shadow roothoz.
+    //  A paraméter itt, amit true-ként adunk meg arra vonatkozni, hog a teljes subtree-t vagy csak az adott node-ot szeretnénk-e klónozni. True: subtree)
     this.shadowRoot.appendChild(this.template.content.cloneNode(true));
   }
 
@@ -293,4 +294,85 @@ class CustomCard extends HTMLElement {
 }
 
 customElements.define("custom-card", CustomCard);
+```
+
+Hogyan tudjuk ezt a HTML-ben haszálni? Hát, nyilván ugyanúgy, mint korábban bármelyik custom elementünket:
+
+```HTML
+<custom-card></custom-card>
+```
+
+Oké, de ez ezen a ponton annyira nem izgalmas, hiszen mindigy ugyanaz a tartalom lesz jelen a custom-cardunkban, méghozzá az, amit a template-ben megadtunk. Hogyan tudnánk azt megoldani, hogy adjunk a komponensnek egy kis flexibilitást? Erre adnak egy dekleratív megoldást a **SLOT**ok
+
+A slotokra a nevűk által tudunk hivatkozni. Így például egy slot létrehozása az alábbi módon néz ki:
+
+```HTML
+<!-- FONTOS: a névnek unique-nak kell lennie az adott shadow rootra nézve. Amelyiknek slotnak nem adunk name attribútumot, ő lesz a deafult slot. Később azok az elemek, amiket nem látunk el slot attribútummal, ők a default slothoz rendelődnek majd. A slot tagek között meg tudok egy default értéket, ami akkor displayelődik, ha nem csúsztatunk be semmit a slotba. -->
+<slot name="title-slot">Default value</slot>
+```
+
+Az adott slotba bedig így tudunk "becsúsztatni" elemet:
+
+```js
+...
+  <p slot="title-slot">Ez a "title-slot" névvel ellátott slotba kerül</p>
+...
+```
+
+Tegyük a template-es példánkat rugalmasabbá a slotok segítségével. Biztosítsuk, hogy kívülről lehessen megadni, hogy mi a:
+
+- kártya cím: h2-tag, ez a title
+- kártya leírása: p-tag, ez a description
+
+Ehhez csupán a **generateTemplate** methodot kell módosítanunk, azon belül is csak a card belsejét:
+
+```HTML
+<!-- TEHÁT: a lényegi változás ez lesz, itt a h2 és a p-tagek belsejébe kerül a slot: -->
+<div class="card">
+  <h2><slot name="title-slot">Default Title</slot></h2>
+  <p><slot name="desc-slot">Default Description</slot></p>
+</div>
+```
+
+```js
+// így egyben a változott generateTemplate method:
+  generateTemplate() {
+    this.template = document.createElement("template");
+    this.template.innerHTML = `
+      <style>
+        .card {
+            width: 100%;
+            background-color: white;
+            border-radius: 3px;
+            padding: 20px;
+            margin: 10px;
+            box-shadow: 2px 6px 6px gray;
+            border: 1px solid black;
+        }
+      </style>
+
+      <div class="card">
+        <h2><slot name="title-slot">Default Title</slot></h2>
+        <p><slot name="desc-slot">Default Description</slot></p>
+      </div>
+    `;
+  }
+```
+
+HTML-ben pedig ennek a használata:
+
+```HTML
+<!-- Nem csúsztatok be semmit, csak a default értékek jelennek meg -->
+<custom-card></custom-card>
+
+<!-- Csak title-t adok meg a paragraph értéke default lesz -->
+<custom-card>
+  <span slot="title-slot">HALIHÓ</span>
+</custom-card>
+
+<!-- Beküldöm a címet is és a leírást is -->
+<custom-card>
+  <span slot="title-slot">HALIHÓ</span>
+  <span slot="desc-slot">KISEBB HALIHÓ</span>
+</custom-card>
 ```
