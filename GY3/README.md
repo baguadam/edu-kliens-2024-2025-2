@@ -1,6 +1,6 @@
 # GY3
 
-Infókat a következő órai zh-ról Teamsen találtok az **Általánosban**
+Infókat a következő órai zh-ról ás a háziról Teamsen találtok az **Általánosban**
 
 ## Customized built-in element
 
