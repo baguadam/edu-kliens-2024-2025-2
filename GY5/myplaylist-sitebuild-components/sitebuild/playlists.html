@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>My Playlist App</title>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.css"
+  />
+</head>
+
+<body class="ui container">
+  <nav class="ui secondary menu">
+    <img src="assets/logo.png" />
+    <a class="item" href="index.html"><i class="home icon"></i> Home</a>
+    <a class="active item" href="playlists.html"><i class="headphones icon"></i> My Playlists</a>
+    <a class="item" href="tracks.html"><i class="music icon"></i> Tracks</a>
+    <a class="item" href="search.html"><i class="search icon"></i> Search</a>
+    <div class="ui right dropdown item">
+      John Doe
+      <i class="dropdown icon"></i>
+      <div class="menu">
+        <div class="item"><i class="user icon"></i> Profile</div>
+        <div class="item"><i class="settings icon"></i> Settings</div>
+        <div class="item"><i class="sign out icon"></i>Log out</div>
+      </div>
+    </div>
+  </nav>
+  <div class="ui container">
+    <h1>My Playlists</h1>
+    <div class="ui stackable two column grid">
+      <div class="ui six wide column">
+        <h3>Playlists</h3>
+        <div class="ui very relaxed selection list">
+          <div class="item">
+            <i class="large compact disc middle aligned icon"></i>
+            <div class="content">
+              <a class="header">Heavy Metal</a>
+              <div class="description">5 songs</div>
+            </div>
+          </div>
+          <div class="active item">
+            <i class="large compact disc middle aligned icon"></i>
+            <div class="content">
+              <a class="header">Classics</a>
+              <div class="description">4 songs</div>
+            </div>
+          </div>
+          <div class="item">
+            <i class="large compact disc middle aligned icon"></i>
+            <div class="content">
+              <a class="header">Movie Soundtracks</a>
+              <div class="description">9 songs</div>
+            </div>
+          </div>
+          <div class="item" id="newPlaylist">
+            <i class="large green plus middle aligned icon"></i>
+            <div class="content">
+              <a class="header">New</a>
+              <div class="description">Create a new playlist</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui ten wide column">
+        <h3>Classics</h3>
+        <div class="ui very relaxed selection list">
+          <div class="item">
+            <i class="large music middle aligned icon"></i>
+            <div class="content">
+              <a class="header">Highway to hell</a>
+              <div class="description">AC/DC</div>
+            </div>
+          </div>
+          <div class="item">
+            <i class="large music middle aligned icon"></i>
+            <div class="content">
+              <a class="header">Thunderstruck</a>
+              <div class="description">AC/DC</div>
+            </div>
+          </div>
+          <div class="item">
+            <i class="large music middle aligned icon"></i>
+            <div class="content">
+              <a class="header">Take me home country roads</a>
+              <div class="description">John Denver</div>
+            </div>
+          </div>
+          <div class="active item">
+            <i class="large music middle aligned icon"></i>
+            <div class="content">
+              <a class="header">It's my life</a>
+              <div class="description">Bon Jovi</div>
+            </div>
+          </div>
+          <div class="item">
+            <i class="large music middle aligned icon"></i>
+            <div class="content">
+              <a class="header">Livin' on a prayer</a>
+              <div class="description">Bon Jovi</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ui divider"></div>
+    <div class="ui segment">
+      <div class="ui items">
+        <div class="item">
+          <div class="image">
+            <img src="assets/bonjovi.jpg" />
+          </div>
+          <div class="content">
+            <a class="header">It's my life</a>
+            <div class="meta"><span>Bon Jovi</span><span>4:35</span></div>
+            <div class="extra">
+              <a 
+                href="https://open.spotify.com/track/0v1XpBHnsbkCn7iJ9Ucr1l" 
+                class="ui button tiny green button" target="_blank"
+              >
+                <i class="spotify icon"></i>
+                Listen on Spotify
+              </a>
+              <a 
+                href="https://tabs.ultimate-guitar.com/tab/bon-jovi/its-my-life-chords-951538"
+                class="ui button tiny teal button" target="_blank"
+              >
+                <i class="microphone icon"></i>
+                Show lyrics
+              </a>
+              <a 
+                href="https://www.azlyrics.com/lyrics/bonjovi/itsmylife.html" 
+                class="ui button tiny orange button" target="_blank"
+              >
+                <i class="guitar icon"></i>
+                Show chords
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui modal">
+    <i class="close icon"></i>
+    <div class="header">Add new Playlist</div>
+    <div class="image content">
+      <div class="description">
+        <div class="ui form">
+          <div class="field">
+            <label>Name</label>
+            <input required type="text" placeholder="My Playlist">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui black deny button">
+        Cancel
+      </div>
+      <div class="ui positive right labeled icon button">
+        Add
+        <i class="plus icon"></i>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.js"></script>
+
+  <script>
+    $(".ui.dropdown").dropdown();
+    $("#newPlaylist").click(function () {
+      $(".ui.modal").modal("show");
+    });
+  </script>
+</body>
