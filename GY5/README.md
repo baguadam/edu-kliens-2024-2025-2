@@ -365,7 +365,7 @@ export default App;
 
 Szervezzük ki első körben az `src/component` folderbe `TrackDetails` komponens néven az alsó részét.
 
-!!!KÉP
+![image](https://github.com/user-attachments/assets/f36bbcec-c8ef-4e2d-a021-efdebb7aa22e)
 
 Használjuk ezt a létrehozott komponst a `Playlists`ben. Ezt követően bontsuk további részre a `TrackDetails`t, hozzunk létre külön komponens a gomboknak: `TrackDetailButton`. Gondoljuk végig, hogy mi változik a gombok esetén:
 
@@ -406,6 +406,6 @@ Illetve ezt követően a használata a `TrackDetails`ben:
 
 Hozzunk létre egy `PlaylistList` komponenst, ami a playlisteket tartalmazza az oldalról (8-40)!
 
-!!!KÉP
+![image](https://github.com/user-attachments/assets/3efef7e1-110c-4781-8f6b-04e1db2737a9)
 
 Ezt követően ezt még tudjuk további részekre bontani, így például létrehozhatunk egy `PlaylistItem` komponenst, ami azért felel majd, hogy egy-egy playlist hogyan jelenjen meg. Célszerű ezt is kiszervezni külön, hiszen egész sok információt foglal egységbe, szebbé, átláthatóbbá, modulárisabbá teszi az elkülönítése. A feltöltött kódban ezeknek az implementációját megtaláljátok!
