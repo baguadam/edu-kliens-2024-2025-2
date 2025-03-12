@@ -1,11 +1,13 @@
 ## Babel, Webpack, ESBuild
 
-Kettős célja van:
+Két fontos fogalom, amiről érdemes, ha tudtuk: `transpiling` és `bundling`
+
+A `transpilingnak` kettős célja van:
 
 - Egy adott JS verziót átforgat egy korábbi verzióra. Amikor megjelentek új nyelvi elemek, de még éltek a régi böngészők, át kellett fordítani őket a régivel kompatibilissé. Sokszor ezek szintaktikai cukorkák
 - Nemlétező nyelvi elemeket tudunk létrehozni, azt pedig át tudja fordítani
 
-Viszont ma már inkább: `ESBuild`. Ha `Vite` segítségével hoztok létre React projektet, automatikusan az ESBuild jön majd le, nem pedig a Babel. ESBuild a `transpiling` mellett a `bundlingot` is elvégzi, azaz több JS vagy CSS vagy egyéb webes fájlt összekombinál egy vagy több kisebb fájlba. Például:
+Viszont ma már inkább: `ESBuild`. Ha `Vite` segítségével hoztok létre React projektet, automatikusan az ESBuildet használ. ESBuild a `transpiling` mellett a `bundlingot` is elvégzi, azaz több JS vagy CSS vagy egyéb webes fájlt összekombinál egy vagy több kisebb fájlba. Például:
 
 Kód bundling ELŐTT:
 
@@ -28,10 +30,6 @@ function greet(name) {
 }
 console.log(greet("John"));
 ```
-
-## Komponensalapú fejlesztés
-
-TODO: ábra, kisebb leírás
 
 ## Első React alkalmazás létrehozása
 
@@ -221,6 +219,14 @@ return (
     ))}
   </ul>
 );
+
+// VIGYÁZZATOK, ilyenkor viszont kell a return a végén, míg (user) => () esetén nem
+users.map((user) => {
+  // itt csinálhatsz dolgokat, változók létrehozása stb.
+
+  // végén a return:
+  return <li key={user.id}>{user.name}</li>;
+});
 ```
 
 > ### 💡 FONTOS
@@ -262,7 +268,9 @@ export default App;
 
 Láthatjuk, hogy egy csomó hibát jelez kapunk ekkor. A követő lépések arra irányulnak, hogy kijavítsuk ezeket a hibákat a kódban.
 
-- Mivel nem használhatunk olyan keywordoket, amik már JS által foglaltak, így nem használhatjuk a jsx kódunkban a `class`t sem, erre errort kapunk. Helyette mindenhol, ahol class van, `className`-et fogunk használni. Cseréljük le mindenhol a komponensben!
+> ### 💡 FONTOS
+>
+> Mivel nem használhatunk olyan keywordoket, amik már JS által foglaltak, így nem használhatjuk a jsx kódunkban a `class`t sem, erre errort kapunk. Helyette mindenhol, ahol class van, `className`-et fogunk használni. Cseréljük le mindenhol a komponensben!
 
 ```jsx
 function App() {
