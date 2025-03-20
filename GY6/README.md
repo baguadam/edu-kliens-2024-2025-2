@@ -253,7 +253,7 @@ const Layout = ({ children }) => {
 
 Első körben telepítsük fel ehhez a `react-router-dom`-ot, majd oldjuk meg a feladatot
 
-- **BrowserRouter**: felelős azért, hogy a client side routingot megoldja, eltárolja a jelenlegi locationt, segít navigálni, stb. Ebben a komponensbe csomagoljuk bele a lényegi részeket, amiket routolni szeretnék: `HOC (Higher Order Component)`
+- **BrowserRouter**: felelős azért, hogy a `client side routing`ot megoldja, eltárolja a jelenlegi locationt, segít navigálni, stb. Ebben a komponensbe csomagoljuk bele a lényegi részeket, amiket routolni szeretnék: `HOC (Higher Order Component)`
 - **Routes**: ennek a segítségével szeretnénk elágazásokat létrehozni az alkalmazásban attól függően, hogy mit szeretnék megjeleníteni. Ezen belül kell specifikálni a **Route**-okat.
 - **Route**: ez felel azért, hogy váltogathassunk a különböző komponensek között. Van több lényege propja is: `element`, `path`, stb.
 
