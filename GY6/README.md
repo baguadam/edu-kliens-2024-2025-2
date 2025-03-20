@@ -2,7 +2,7 @@
 
 ## React Hooks
 
-Reactben a `Hook`ok segítségével tudunk használi különböző React feature-öket a komponenseinkben. Segítségükkel tudjuk a komponenseink állapotát kezelni, szinkronizálni külső rendszerekkel, stb. Fontos, hogy ezek mindig a a komponens legfelső szintjén hívódnak meg. Sosem hívjuk őket feltételtől függően, például:
+Reactben a `Hook`ok segítségével tudunk használni különböző React feature-öket a komponenseinkben. Segítségükkel tudjuk a komponenseink állapotát kezelni, szinkronizálni külső rendszerekkel, stb. Fontos, hogy ezek mindig a a komponens legfelső szintjén hívódnak meg. Sosem hívjuk őket feltételtől függően, például:
 
 ```jsx
 // NE CSINÁLD ÍGY!
