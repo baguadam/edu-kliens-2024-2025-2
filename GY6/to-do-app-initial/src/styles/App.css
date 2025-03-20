@@ -1,0 +1,95 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f0f4f8;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: 600px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  padding: 25px;
+  text-align: center;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.add-task-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.add-task-form input {
+  flex: 1;
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.add-task-form button {
+  padding: 10px 15px;
+  background-color: #5a8dee;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.add-task-form button:hover {
+  background-color: #417ae2;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.task-item span {
+  flex: 1;
+  margin-left: 10px;
+  font-size: 16px;
+  color: black;
+}
+
+.task-item.completed span {
+  text-decoration: line-through;
+  color: green;
+}
+
+.task-item button {
+  background: none;
+  border: none;
+  color: #ff6b6b;
+  cursor: pointer;
+  font-size: 18px;
+  transition: color 0.2s;
+}
+
+.task-item button:hover {
+  color: #ff3030;
+}
+
+.empty-message {
+  text-align: center;
+  color: #888;
+  padding: 20px 0;
+}
