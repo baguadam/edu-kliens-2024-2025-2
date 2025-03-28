@@ -1,0 +1,54 @@
+:root {
+  color-scheme: light dark;
+  color: #213547;
+  background-color: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #242424;
+  }
+}
+
+div {
+  margin: 20px;
+}
+#szo {
+  display: flex;
+}
+#szo span {
+  width: 20px;
+  height: 20px;
+  border-bottom: 2px solid black;
+  margin-left: 3px;
+  text-align: center;
+  font-size: 20px;
+}
+#szo.nyer {
+  color: green;
+}
+#szo .hianyzo {
+  color: red;
+}
+#betuk button[disabled] {
+  opacity: 0.5;
+}
+svg {
+  border: 1px solid lightgray;
+  box-shadow: 0px 0px 20px 0px black;
+}
+svg * {
+  display: block;
+  animation: villan 2s 0.2s;
+}
+@keyframes villan {
+  0% {
+    stroke: red;
+    stroke-width: 5px;
+  }
+  100% {
+    stroke: black;
+    stroke-width: 1px;
+  }
+}
