@@ -32,7 +32,7 @@ const InputFocus = () => {
   }, []);
 
   return <input ref={inputRef} />;
-}
+};
 ```
 
 > ### 💡 FONTOS
@@ -56,13 +56,13 @@ const MyComponent = () => {
 };
 ```
 
-> ### 💡 useState vs useRef
->
-> | Tulajdonságok                        | `useRef`                               | `useState`                 |
-> | ------------------------------------ | -------------------------------------- | -------------------------- |
-> | Megmarad az értéke rerenderek között | IGEN ✅                                | IGEN ✅                    |
-> | Rerendert triggerel                  | NEM (`ref.current` változik) ❌        | IGEN (`state` változik) ✅ |
-> | Mire használjuk                      | DOM refereciák, timer, korábbi értékek | UI state                   |
+### 💡 useState vs useRef
+
+| Tulajdonságok                        | `useRef`                               | `useState`                 |
+| ------------------------------------ | -------------------------------------- | -------------------------- |
+| Megmarad az értéke rerenderek között | IGEN ✅                                | IGEN ✅                    |
+| Rerendert triggerel                  | NEM (`ref.current` változik) ❌        | IGEN (`state` változik) ✅ |
+| Mire használjuk                      | DOM refereciák, timer, korábbi értékek | UI state                   |
 
 ---
 
@@ -89,13 +89,13 @@ useEffect(() => {});
 useEffect(() => {}, []);
 ```
 
-> ### 💡 Dependency Array összefoglaló
->
-> | Dependency Array          | Lefut az Effect:                                |
-> | ------------------------- | ----------------------------------------------- |
-> | Nincs Dependency Array    | Minden render alkalmával                        |
-> | Üres Dependency Array: [] | Csak az első render alkalmával                  |
-> | Nem üres, pl: [value]     | Mountoláskor + amikor a `value` értéke változik |
+### 💡 Dependency Array összefoglaló
+
+| Dependency Array          | Lefut az Effect:                                |
+| ------------------------- | ----------------------------------------------- |
+| Nincs Dependency Array    | Minden render alkalmával                        |
+| Üres Dependency Array: [] | Csak az első render alkalmával                  |
+| Nem üres, pl: [value]     | Mountoláskor + amikor a `value` értéke változik |
 
 ```jsx
 // Példakód: Adat fecthelés komponens mountolásakor -> tipikus példája a useEffect használatának
@@ -325,13 +325,13 @@ const Header = () => {
 };
 ```
 
-> ### 💡 Legfontosabb elemek:
->
-> | Elem               | Célja                                                   |
-> | ------------------ | ------------------------------------------------------- |
-> | `createContext()`  | Létrehozza a context objektumot                         |
-> | `Context.Provider` | "Becsomagolja" a gyerekeket és biztosítja az adatot     |
-> | `useContext()`     | Általa kapjuk meg a context által biztosított értékeket |
+### 💡 Legfontosabb elemek:
+
+| Elem               | Célja                                                   |
+| ------------------ | ------------------------------------------------------- |
+| `createContext()`  | Létrehozza a context objektumot                         |
+| `Context.Provider` | "Becsomagolja" a gyerekeket és biztosítja az adatot     |
+| `useContext()`     | Általa kapjuk meg a context által biztosított értékeket |
 
 > ### 💡 FONTOS
 >
@@ -350,10 +350,10 @@ const Header = () => {
 > const { theme, setTheme } = useTheme();
 > ```
 
-> ### 💡 Context vs Props vs State
->
-> | Eset...                                              | Ajánlott... |
-> | ---------------------------------------------------- | ----------- |
-> | Egy komponensen belüli állapot                       | `useState`  |
-> | Adat, amire szükség van 1-2 szinttel lejjebb         | `Props`     |
-> | Adat, ami applikáció szintjén (globálisan) szükséges | `Context`   |
+### 💡 Context vs Props vs State
+
+| Eset...                                              | Ajánlott... |
+| ---------------------------------------------------- | ----------- |
+| Egy komponensen belüli állapot                       | `useState`  |
+| Adat, amire szükség van 1-2 szinttel lejjebb         | `Props`     |
+| Adat, ami applikáció szintjén (globálisan) szükséges | `Context`   |
