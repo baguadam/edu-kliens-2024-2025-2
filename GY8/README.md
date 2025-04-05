@@ -283,6 +283,10 @@ function SignupForm() {
 
 Már megismerkedtünk a `prop drilling`gel, ami nem más, mint az adatok lecsorgatása több komponensen keresztül. Ha kicsit jobban belegondolunk, akkor hamar rájöhetünk, hogy ez a megközelítés tud problémás lenni, ha egy szülőkomponensből nagyon mélyre szeretnénk valamilyen információt eljuttatni egy gyerek komponens számára. Főleg abban az esetben, ha valamilyen információra szükség van a teljes alkalmazás szintjén, például: autentikálva van-e egy user, mi az alkalmazás egységes stílusa, mi az alkalmazás egységes nyelve stb. Ilyen esetekben jön képbe a `Context`. Kapunk egy built-in feature-t arra, hogy globálisan tudjunk adatot megosztani a koponensek között, a komponensfában, anélkül, hogy manuálisan le kellene csorgatnunk az információt több komponensen keresztül. Úgy kell ezt elképzelni, hogy a szülőkomponens elérhető teszi (biztosítja - `Provide`) az adatot a teljes alatta lévő részfa számára.
 
+![image](https://github.com/user-attachments/assets/ae96a806-3e06-41ef-8a8e-081dc9069bc2)
+
+[FORRÁS](https://react.dev/learn/passing-data-deeply-with-context)
+
 ```jsx
 // 1. Létrehozzuk a Contextet:
 import { createContext } from "react";
