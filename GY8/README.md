@@ -102,7 +102,7 @@ useEffect(() => {}, []);
 
 import { useEffect, useState } from "react";
 
-function Users() {
+const Users = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
