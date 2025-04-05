@@ -163,3 +163,118 @@ function Users() {
 > 2. Ha a `props`ok alapján akarod változtatni a state-et
 > 3. Event handling logika megírásához
 > 4. És még jópár esetben, amikről részletesebb [Itt olvashatsz](https://react.dev/learn/you-might-not-need-an-effect)
+
+## Custom Hooks
+
+> ### 💡 MI EZ, MIRE JÓ?
+>
+> Reacten belül számos alap hookot kapunk, amik közül néhánnyal már megismerkedtünk. Azonban előfordulhat, hogy szeretnénk, ha lenne egy-egy hook valamilyen speciális use-case-re, viszont a beépítettek közül erre nem találunk semmit. Semmi gond, ilyenkor létre tudjuk hozni a sajátunkat! Egy `Custom Hook` igazából egy olyan függvény, aminek a neve `use`-zal kezdődik és használ önmagában valamilyen beépített React hookot, például `useState`-et, `useEffect`-et. Segítségével összetartozó logikát tudunk egységbe zárni, és ezt újrahasználni komponenseken keresztül. Így egy-egy összetettebb, összetartozó logika kiszervezésével sokkal tisztább, átláthatóbb komponenseket kapunk, illetve megvalósul egy valamilyen szintű `Separation of Concerns` is, hiszen össze tudunk fogni API logikát, local storage kezelést, form kezelést, stb.
+
+```jsx
+// egy teljesen egyszerű Custom Hook létrehozása
+const useMyCustomHook = () => {
+  const [value, setValue] = useState(null);
+
+  return { value, setValue };
+};
+```
+
+> ### 💡 FONTOS
+>
+> MINDIG `use`-zal kezdődjön a neve! Egyrészt így olvashatóbbá válik a kód, és ránézésre is meg tudjuk állapítani, hogy egy hookról van szó. Másrészt ilyenkor a linter is úgy kezeli, mintha egy tényleges hook lenne, és kikényszeríti ugyanazokat a szabályokat erre vonatkozóan is (amire nyilván szükség van, hogyha tartalmaz például egy `useState`-et, akkor nem hozhatom létre a custom hookomat sem feltételhez kötötten, ciklusban, stb).
+>
+> Érdemes arra is odafigyelni, hogy általában tényleg az a cél egy custom hook létrehozásánál, hogy egységbe zárjunk egy bizonyos működést, így kifelé csak azt adjuk, ami ténylegesen szükséges a működtetéshez.
+>
+> Hasonlóképpen, inkább érdemes több, kisebb hookot létrehozni egy hatalmas nagy hook helyett.
+
+```jsx
+// useForm.js
+// Gyakori alkalmazása például a form logika egységba zárás:
+import { useState } from "react";
+
+const useForm = (initialValues = {}) => {
+  const [values, setValues] = useState(initialValues);
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setValues((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const resetForm = () => {
+    setValues(initialValues);
+  };
+
+  return {
+    values,
+    handleChange,
+    resetForm,
+  };
+};
+
+export default useForm;
+```
+
+```jsx
+// SignupForm.jsx
+// használata:
+import useForm from "./useForm";
+
+function SignupForm() {
+  // teljesen ugyanúgy történik, mintha egy általános, beépített hookot hívnék
+  const { values, handleChange, resetForm } = useForm({
+    name: "",
+    email: "",
+    password: "",
+    agreeToTerms: false,
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    resetForm();
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        name="name"
+        value={values.name}
+        onChange={handleChange}
+        placeholder="Name"
+      />
+
+      <input
+        name="email"
+        value={values.email}
+        onChange={handleChange}
+        placeholder="Email"
+        type="email"
+      />
+
+      <input
+        name="password"
+        value={values.password}
+        onChange={handleChange}
+        placeholder="Password"
+        type="password"
+      />
+
+      <label>
+        <input
+          name="agreeToTerms"
+          type="checkbox"
+          checked={values.agreeToTerms}
+          onChange={handleChange}
+        />
+        Elfogadom a feltételeket!
+      </label>
+
+      <button type="submit">Regisztráció</button>
+    </form>
+  );
+}
+```
+
+## Context
