@@ -10,14 +10,14 @@ A 7. gyakorlaton az eddigiek gyakorlása mellett a formkezeléssel foglalkoztunk
 
 Az alábbiakban összeszedtem néhány fontosabb gondolatot, tippet azokról a hookokról, amikkel találkoztunk a gyakorlatokon egy-két példa erejéig.
 
-### useRef
+## useRef
 
-> ### 💡 MIRE JÓ, MIKOR HASZÁLJUK
->
-> A `useRef` hook `mutable` referenciákat ad a kezünkbe, amik állandóak maradnak a rerenderek során, illetve ha változtatjuk az értéket az adott referenciának, nem renderelődik újra a komponens. Maga a hook egy `objectet` ad vissza, ami rendelkezik egy `current` propery-vel (és csak ezzel), ezen keresztül tudjuk elérni, amire referálunk. Általában akkor használjuk, ha:
->
-> - Szeretnénk DOM elemeket elérni (hasonlóan pl. a querySelectorhoz)
-> - Értékeket akarunk tárolni rendereken keresztül, anélkül, hogy újrarenderelnénk a komponenst
+### MIRE JÓ, MIKOR HASZÁLJUK
+
+A `useRef` hook `mutable` referenciákat ad a kezünkbe, amik állandóak maradnak a rerenderek során, illetve ha változtatjuk az értéket az adott referenciának, nem renderelődik újra a komponens. Maga a hook egy `objectet` ad vissza, ami rendelkezik egy `current` propery-vel (és csak ezzel), ezen keresztül tudjuk elérni, amire referálunk. Általában akkor használjuk, ha:
+
+- Szeretnénk DOM elemeket elérni (hasonlóan pl. a querySelectorhoz)
+- Értékeket akarunk tárolni rendereken keresztül, anélkül, hogy újrarenderelnénk a komponenst
 
 ```jsx
 // gyakori use-case, amivel mi is találkoztunk a gyakorlaton
@@ -56,7 +56,7 @@ const MyComponent = () => {
 };
 ```
 
-### 💡 useState vs useRef
+### useState vs useRef
 
 | Tulajdonságok                        | `useRef`                               | `useState`                 |
 | ------------------------------------ | -------------------------------------- | -------------------------- |
@@ -66,13 +66,13 @@ const MyComponent = () => {
 
 ---
 
-### useEffect
+## useEffect
 
-> ### 💡 MIRE JÓ, MIKOR HASZÁLJUK
->
-> A `useEffect` hookot arra használjuk, hogy `side effect`eket hozzunk létre a komponenseinket belül. Ilyen például az, ha adatot akarunk `fetch`elni, DOM-ot frissítjük vagy feliratkozunk valamire. Az általános use-case az, hogy a komponensünket valamilyen külső "rendszerrel" szeretnénk szinkronban tartani, például a `localStorage`-ba írunk/olvasunk, egy REST API-n keresztül adatokat kérünk el, küldünk ki. Hasonlóképpen az eddigi hookokkal, itt is csak a legmagasabb szinten tudjuk hívni, így például nem köthetjük feltételhez, nem tehetjük ciklusba, stb.
->
-> Létrehozáskor kap egy függvényt, ezt hívjuk `setup`-nak, ez a függvény tartalmazza a logikát, amit szeretnénk lefuttatni. A másik (opcionális) paramétere egy `dependencies` tömb, ami azokat a reaktív értékeket tartalmazza, amiket használsz a setup függvényen belül. Ha valamelyik dependency értéke megváltozik, lefut a függvény, végrehajtódik a benne megírt logika.
+### MIRE JÓ, MIKOR HASZÁLJUK
+
+A `useEffect` hookot arra használjuk, hogy `side effect`eket hozzunk létre a komponenseinket belül. Ilyen például az, ha adatot akarunk `fetch`elni, DOM-ot frissítjük vagy feliratkozunk valamire. Az általános use-case az, hogy a komponensünket valamilyen külső "rendszerrel" szeretnénk szinkronban tartani, például a `localStorage`-ba írunk/olvasunk, egy REST API-n keresztül adatokat kérünk el, küldünk ki. Hasonlóképpen az eddigi hookokkal, itt is csak a legmagasabb szinten tudjuk hívni, így például nem köthetjük feltételhez, nem tehetjük ciklusba, stb.
+
+Létrehozáskor kap egy függvényt, ezt hívjuk `setup`-nak, ez a függvény tartalmazza a logikát, amit szeretnénk lefuttatni. A másik (opcionális) paramétere egy `dependencies` tömb, ami azokat a reaktív értékeket tartalmazza, amiket használsz a setup függvényen belül. Ha valamelyik dependency értéke megváltozik, lefut a függvény, végrehajtódik a benne megírt logika.
 
 ```jsx
 // alap szintaxis:
@@ -89,7 +89,7 @@ useEffect(() => {});
 useEffect(() => {}, []);
 ```
 
-### 💡 Dependency Array összefoglaló
+### Dependency Array összefoglaló
 
 | Dependency Array          | Lefut az Effect:                                |
 | ------------------------- | ----------------------------------------------- |
@@ -125,50 +125,50 @@ function Users() {
 }
 ```
 
-> ### 💡 Néhány gyakori hiba
->
-> 1. Nem adsz meg Dependency Array-t (bár ilyenkor azért a linter sírni szokott):
->
-> ```jsx
-> useEffect(() => {
->   doSomething(data); // használod a data-t, de nincs felsorolva dependencyként
-> }, []); // ide kellene: [data]
-> ```
->
-> 2. Effect használata egyszerű UI logika számolására - mintha a `Hangman` projektben effectben számoltunk volna bizonyos értékeket:
->
-> ```jsx
-> useEffect(() => {
->   if (count > 5) {
->     setMessage("TÚL SOK!"); // ez a logika simán számolható lenne render során
->   }
-> }, [count]);
->
-> // helyette:
-> const message = count > 5 ? "TÚL SOK" : "";
-> ```
->
-> 3. Ha a setup function valamilyen külső rendszerhez kapcsolódik (például ilyennek számít az is, ha egy `setInterval`t hívsz), akkor az Effectnek vissza kell adnia egy `cleanup function`t, ami leiratkozik, elvégzi a "takarítást", különben leak lesz. Mit jelent ez a gyakorlatban:
->
-> ```jsx
-> useEffect(() => {
->   const id = setInterval(() => console.log("tick"), 1000);
->   return () => clearInterval(id); // valami ilyesmit, itt ez a cleanup függvény
-> }, []);
-> ```
+### ⁉️Néhány gyakori hiba
 
-> ### 💡 NE használj Effectet, ha
->
-> 1. Valamilyen származtatott értéket akarsz csak kalkulálni (mint azt tettük sokszor a `Hangman`ben)
-> 2. Ha a `props`ok alapján akarod változtatni a state-et
-> 3. Event handling logika megírásához
-> 4. És még jópár esetben, amikről részletesebb [Itt olvashatsz](https://react.dev/learn/you-might-not-need-an-effect)
+1. Nem adsz meg Dependency Array-t (bár ilyenkor azért a linter sírni szokott):
+
+```jsx
+useEffect(() => {
+  doSomething(data); // használod a data-t, de nincs felsorolva dependencyként
+}, []); // ide kellene: [data]
+```
+
+2.  Effect használata egyszerű UI logika számolására - mintha a `Hangman` projektben effectben számoltunk volna bizonyos értékeket:
+
+```jsx
+useEffect(() => {
+  if (count > 5) {
+    setMessage("TÚL SOK!"); // ez a logika simán számolható lenne render során
+  }
+}, [count]);
+
+// helyette:
+const message = count > 5 ? "TÚL SOK" : "";
+```
+
+3.  Ha a setup function valamilyen külső rendszerhez kapcsolódik (például ilyennek számít az is, ha egy `setInterval`t hívsz), akkor az Effectnek vissza kell adnia egy `cleanup function`t, ami leiratkozik, elvégzi a "takarítást", különben leak lesz. Mit jelent ez a gyakorlatban:
+
+```jsx
+useEffect(() => {
+  const id = setInterval(() => console.log("tick"), 1000);
+  return () => clearInterval(id); // valami ilyesmit, itt ez a cleanup függvény
+}, []);
+```
+
+### ‼️NE használj Effectet, ha
+
+1.  Valamilyen származtatott értéket akarsz csak kalkulálni (mint azt tettük sokszor a `Hangman`ben)
+2.  Ha a `props`ok alapján akarod változtatni a state-et
+3.  Event handling logika megírásához
+4.  És még jópár esetben, amikről részletesebb [Itt olvashatsz](https://react.dev/learn/you-might-not-need-an-effect)
 
 ## Custom Hooks
 
-> ### 💡 MI EZ, MIRE JÓ?
->
-> Reacten belül számos alap hookot kapunk, amik közül néhánnyal már megismerkedtünk. Azonban előfordulhat, hogy szeretnénk, ha lenne egy-egy hook valamilyen speciális use-case-re, viszont a beépítettek közül erre nem találunk semmit. Semmi gond, ilyenkor létre tudjuk hozni a sajátunkat! Egy `Custom Hook` igazából egy olyan függvény, aminek a neve `use`-zal kezdődik és használ önmagában valamilyen beépített React hookot, például `useState`-et, `useEffect`-et. Segítségével összetartozó logikát tudunk egységbe zárni, és ezt újrahasználni komponenseken keresztül. Így egy-egy összetettebb, összetartozó logika kiszervezésével sokkal tisztább, átláthatóbb komponenseket kapunk, illetve megvalósul egy valamilyen szintű `Separation of Concerns` is, hiszen össze tudunk fogni API logikát, local storage kezelést, form kezelést, stb.
+### MI EZ, MIRE JÓ?
+
+Reacten belül számos alap hookot kapunk, amik közül néhánnyal már megismerkedtünk. Azonban előfordulhat, hogy szeretnénk, ha lenne egy-egy hook valamilyen speciális use-case-re, viszont a beépítettek közül erre nem találunk semmit. Semmi gond, ilyenkor létre tudjuk hozni a sajátunkat! Egy `Custom Hook` igazából egy olyan függvény, aminek a neve `use`-zal kezdődik és használ önmagában valamilyen beépített React hookot, például `useState`-et, `useEffect`-et. Segítségével összetartozó logikát tudunk egységbe zárni, és ezt újrahasználni komponenseken keresztül. Így egy-egy összetettebb, összetartozó logika kiszervezésével sokkal tisztább, átláthatóbb komponenseket kapunk, illetve megvalósul egy valamilyen szintű `Separation of Concerns` is, hiszen össze tudunk fogni API logikát, local storage kezelést, form kezelést, stb.
 
 ```jsx
 // egy teljesen egyszerű Custom Hook létrehozása
@@ -279,9 +279,9 @@ function SignupForm() {
 
 ## Context
 
-> ### 💡 MI EZ, MIRE JÓ?
->
-> Már megismerkedtünk a `prop drilling`gel, ami nem más, mint az adatok lecsorgatása több komponensen keresztül. Ha kicsit jobban belegondolunk, akkor hamar rájöhetünk, hogy ez a megközelítés tud problémás lenni, ha egy szülőkomponensből nagyon mélyre szeretnénk valamilyen információt eljuttatni egy gyerek komponens számára. Főleg abban az esetben, ha valamilyen információra szükség van a teljes alkalmazás szintjén, például: autentikálva van-e egy user, mi az alkalmazás egységes stílusa, mi az alkalmazás egységes nyelve stb. Ilyen esetekben jön képbe a `Context`. Kapunk egy built-in feature-t arra, hogy globálisan tudjunk adatot megosztani a koponensek között, a komponensfában, anélkül, hogy manuálisan le kellene csorgatnunk az információt több komponensen keresztül. Úgy kell ezt elképzelni, hogy a szülőkomponens elérhető teszi (biztosítja - `Provide`) az adatot a teljes alatta lévő részfa számára.
+### MI EZ, MIRE JÓ?
+
+Már megismerkedtünk a `prop drilling`gel, ami nem más, mint az adatok lecsorgatása több komponensen keresztül. Ha kicsit jobban belegondolunk, akkor hamar rájöhetünk, hogy ez a megközelítés tud problémás lenni, ha egy szülőkomponensből nagyon mélyre szeretnénk valamilyen információt eljuttatni egy gyerek komponens számára. Főleg abban az esetben, ha valamilyen információra szükség van a teljes alkalmazás szintjén, például: autentikálva van-e egy user, mi az alkalmazás egységes stílusa, mi az alkalmazás egységes nyelve stb. Ilyen esetekben jön képbe a `Context`. Kapunk egy built-in feature-t arra, hogy globálisan tudjunk adatot megosztani a koponensek között, a komponensfában, anélkül, hogy manuálisan le kellene csorgatnunk az információt több komponensen keresztül. Úgy kell ezt elképzelni, hogy a szülőkomponens elérhető teszi (biztosítja - `Provide`) az adatot a teljes alatta lévő részfa számára.
 
 ```jsx
 // 1. Létrehozzuk a Contextet:
@@ -325,7 +325,7 @@ const Header = () => {
 };
 ```
 
-### 💡 Legfontosabb elemek:
+### Legfontosabb elemek:
 
 | Elem               | Célja                                                   |
 | ------------------ | ------------------------------------------------------- |
@@ -337,20 +337,20 @@ const Header = () => {
 >
 > Egyrészt ne használjuk túl, ténylegesen csak akkor, ha szükség van rá. Ha egy-két komponensen keresztül kell adatot csorgatni, tökéletes a `props`. Tartsuk meg a `Context`et globális információk megosztására. Aztán fontos azt is látni, hogy nem egy `state manager`ről beszélünk, így a fő célja sem az, hogy komplex logikát építsünk vele. Erre majd a `Redux`ot fogjuk használni (vagy alternatívaként megismerkedhettek, ha van kedvetek a `Zustand`del is!).
 
-> ### 💡 ÉRDEMES LEHET...
->
-> Érdemes lehet a `useContext`et `Custom Hook`kal együtt használni, hogy egy egészen elegáns megoldást kapjunk, így:
->
-> ```jsx
-> const useTheme = () => {
->   return useContext(ThemeContext);
-> };
->
-> // Használva:
-> const { theme, setTheme } = useTheme();
-> ```
+### ÉRDEMES LEHET...
 
-### 💡 Context vs Props vs State
+Érdemes lehet a `useContext`et `Custom Hook`kal együtt használni, hogy egy egészen elegáns megoldást kapjunk, így:
+
+```jsx
+const useTheme = () => {
+  return useContext(ThemeContext);
+};
+
+// Használva:
+const { theme, setTheme } = useTheme();
+```
+
+### Context vs Props vs State
 
 | Eset...                                              | Ajánlott... |
 | ---------------------------------------------------- | ----------- |
