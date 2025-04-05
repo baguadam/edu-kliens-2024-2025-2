@@ -278,3 +278,82 @@ function SignupForm() {
 ```
 
 ## Context
+
+> ### 💡 MI EZ, MIRE JÓ?
+>
+> Már megismerkedtünk a `prop drilling`gel, ami nem más, mint az adatok lecsorgatása több komponensen keresztül. Ha kicsit jobban belegondolunk, akkor hamar rájöhetünk, hogy ez a megközelítés tud problémás lenni, ha egy szülőkomponensből nagyon mélyre szeretnénk valamilyen információt eljuttatni egy gyerek komponens számára. Főleg abban az esetben, ha valamilyen információra szükség van a teljes alkalmazás szintjén, például: autentikálva van-e egy user, mi az alkalmazás egységes stíluse, mi az alkalmazás egységes nyelve stb. Ilyen esetekben jön képbe a `Context`. Kapunk egy built-in feature-t arra, hogy globálisan tudjunk adatot megosztani a koponensek között, a komponensfában, anélkül, hogy manuális le kellene csorgatnunk az információt több komponensen keresztül. Úgy kell ezt elképzelni, hogy a szülőkomponens elérhető teszi (biztosítja - `Provide`) az adatot a teljes alatta lévő részfa számára.
+
+```jsx
+// 1. Létrehozzuk a Contextet:
+import { createContext } from "react";
+
+const ThemeContext = createContext(); // Vagy pedig: createContext(defaultValue)
+```
+
+```jsx
+// 2. A Providerrel "becsomagoljuk" a parent componentet, ahonnan elérhető szeretnénk tenni a biztosított adatot
+// Innentől kezdve a MainComponent és az ő teljes részfája számára elérhető lesz a ThemeContext
+import { useState } from "react";
+import ThemeContext from "./ThemeContext";
+
+function App() {
+  const [theme, setTheme] = useState("light");
+
+  return (
+    <ThemeContext.Provider value={{ theme, setTheme }}>
+      <MainComponent />
+    </ThemeContext.Provider>
+  );
+}
+```
+
+```jsx
+// 3. Használjuk a Contextet a komponensben, ahol szükségünk van rá:
+import { useContext } from "react";
+import ThemeContext from "./ThemeContext";
+
+const Header = () => {
+  const { theme, setTheme } = useContext(ThemeContext); // useContext hook + a Context neve
+
+  return (
+    <header style={{ background: theme === "dark" ? "#222" : "#fff" }}>
+      <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+        Toggle Theme
+      </button>
+    </header>
+  );
+};
+```
+
+> ### 💡 Legfontosabb elemek:
+>
+> | Elem               | Célja                                                   |
+> | ------------------ | ------------------------------------------------------- |
+> | `createContext()`  | Létrehozza a context objektumot                         |
+> | `Context.Provider` | "Becsomagolja" a gyerekeket és biztosítja az adatot     |
+> | `useContext()`     | Általa kapjuk meg a context által biztosított értékeket |
+
+> ### 💡 FONTOS
+>
+> Egyrészt ne használjuk túl, ténylegesen csak akkor, ha szükség van rá. Ha egy-két komponensen keresztül kell adatot csorgatni, tökéletes a `useState`. Tartsuk meg a `Context`et globális információk megosztására. Aztán fontos azt is látni, hogy nem egy "state manager"-ről beszélünk, így a fő célja sem az, hogy komplex logikát építsünk vele. Erre majd a `Redux`ot fogjuk használni (vagy alternatívaként megismerkedhettek, ha van kedvetek a `Zustand`del is!).
+
+> ### 💡 ÉRDEMES LEHET...
+>
+> Érdemes lehet a `useContext`et `Custom Hook`kal együtt használni, hogy egy egészen elegáns megoldást kapjunk, így:
+>
+> ```jsx
+> const useTheme = () => {
+>   return useContext(ThemeContext);
+> };
+>
+> // Használva:
+> const { theme, setTheme } = useTheme();
+> ```
+
+> ### 💡 Context vs Props vs State
+>
+> | Eset...                                              | Ajánlott... |
+> | ---------------------------------------------------- | ----------- |
+> | Egy komponensen belüli állapot                       | `useState`  |
+> | Adat, amire szükség van 1-2 szinttel lejjebb         | `Props`     |
+> | Adat, ami applikáció szintjén (globálisan) szükséges | `Context`   |
