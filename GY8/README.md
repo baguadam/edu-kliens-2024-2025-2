@@ -24,7 +24,7 @@ Az alábbiakban összeszedtem néhány fontosabb gondolatot, tippet azokról a h
 
 import { useRef, useEffect } from "react";
 
-function InputFocus() {
+const InputFocus = () => {
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -70,9 +70,9 @@ const MyComponent = () => {
 
 > ### 💡 MIRE JÓ, MIKOR HASZÁLJUK
 >
-> A `useEffect` hookot arra használjuk, hogy `side effect`eket tudjunk létrehozni a komponenseinket belül. Ilyen például az, ha adatot akarunk `fetch`elni, DOM-ot frissítjük vagy feliratkozunk valamire. Az általános use-case az, hogy a komponensünket valamilyen külső "rendszerrel" szeretnénk szinkronban tartani, például a `localStorage`-ba írunk/olvasunk, egy REST API-n keresztül adatokat kérünk el, küldünk ki. Hasonlóképpen az eddigi hookokkal, itt is csak a legmagasabb szinten tudjuk hívni, így például nem köthetjük feltételhez, nem tehetjük ciklusba, stb.
+> A `useEffect` hookot arra használjuk, hogy `side effect`eket hozzunk létre a komponenseinket belül. Ilyen például az, ha adatot akarunk `fetch`elni, DOM-ot frissítjük vagy feliratkozunk valamire. Az általános use-case az, hogy a komponensünket valamilyen külső "rendszerrel" szeretnénk szinkronban tartani, például a `localStorage`-ba írunk/olvasunk, egy REST API-n keresztül adatokat kérünk el, küldünk ki. Hasonlóképpen az eddigi hookokkal, itt is csak a legmagasabb szinten tudjuk hívni, így például nem köthetjük feltételhez, nem tehetjük ciklusba, stb.
 >
-> Létrehozáskor kap egy függvényt, ezt hívjuk `setup`-nak, ez a függvény tartalmazza a logikát, amit szeretnénk lefuttatni. A másik (opcionális) paramétere egy `dependencies` tömb, ami azokat a reaktív értékeket tartalmazza, amiket használsz a setup függvényen belül. Ha valamelyik dependency értéke megváltozik, lefut a függvény, végrehajtódik a benne megírt logika
+> Létrehozáskor kap egy függvényt, ezt hívjuk `setup`-nak, ez a függvény tartalmazza a logikát, amit szeretnénk lefuttatni. A másik (opcionális) paramétere egy `dependencies` tömb, ami azokat a reaktív értékeket tartalmazza, amiket használsz a setup függvényen belül. Ha valamelyik dependency értéke megváltozik, lefut a függvény, végrehajtódik a benne megírt logika.
 
 ```jsx
 // alap szintaxis:
@@ -281,7 +281,7 @@ function SignupForm() {
 
 > ### 💡 MI EZ, MIRE JÓ?
 >
-> Már megismerkedtünk a `prop drilling`gel, ami nem más, mint az adatok lecsorgatása több komponensen keresztül. Ha kicsit jobban belegondolunk, akkor hamar rájöhetünk, hogy ez a megközelítés tud problémás lenni, ha egy szülőkomponensből nagyon mélyre szeretnénk valamilyen információt eljuttatni egy gyerek komponens számára. Főleg abban az esetben, ha valamilyen információra szükség van a teljes alkalmazás szintjén, például: autentikálva van-e egy user, mi az alkalmazás egységes stíluse, mi az alkalmazás egységes nyelve stb. Ilyen esetekben jön képbe a `Context`. Kapunk egy built-in feature-t arra, hogy globálisan tudjunk adatot megosztani a koponensek között, a komponensfában, anélkül, hogy manuális le kellene csorgatnunk az információt több komponensen keresztül. Úgy kell ezt elképzelni, hogy a szülőkomponens elérhető teszi (biztosítja - `Provide`) az adatot a teljes alatta lévő részfa számára.
+> Már megismerkedtünk a `prop drilling`gel, ami nem más, mint az adatok lecsorgatása több komponensen keresztül. Ha kicsit jobban belegondolunk, akkor hamar rájöhetünk, hogy ez a megközelítés tud problémás lenni, ha egy szülőkomponensből nagyon mélyre szeretnénk valamilyen információt eljuttatni egy gyerek komponens számára. Főleg abban az esetben, ha valamilyen információra szükség van a teljes alkalmazás szintjén, például: autentikálva van-e egy user, mi az alkalmazás egységes stílusa, mi az alkalmazás egységes nyelve stb. Ilyen esetekben jön képbe a `Context`. Kapunk egy built-in feature-t arra, hogy globálisan tudjunk adatot megosztani a koponensek között, a komponensfában, anélkül, hogy manuálisan le kellene csorgatnunk az információt több komponensen keresztül. Úgy kell ezt elképzelni, hogy a szülőkomponens elérhető teszi (biztosítja - `Provide`) az adatot a teljes alatta lévő részfa számára.
 
 ```jsx
 // 1. Létrehozzuk a Contextet:
@@ -335,7 +335,7 @@ const Header = () => {
 
 > ### 💡 FONTOS
 >
-> Egyrészt ne használjuk túl, ténylegesen csak akkor, ha szükség van rá. Ha egy-két komponensen keresztül kell adatot csorgatni, tökéletes a `useState`. Tartsuk meg a `Context`et globális információk megosztására. Aztán fontos azt is látni, hogy nem egy "state manager"-ről beszélünk, így a fő célja sem az, hogy komplex logikát építsünk vele. Erre majd a `Redux`ot fogjuk használni (vagy alternatívaként megismerkedhettek, ha van kedvetek a `Zustand`del is!).
+> Egyrészt ne használjuk túl, ténylegesen csak akkor, ha szükség van rá. Ha egy-két komponensen keresztül kell adatot csorgatni, tökéletes a `props`. Tartsuk meg a `Context`et globális információk megosztására. Aztán fontos azt is látni, hogy nem egy `state manager`ről beszélünk, így a fő célja sem az, hogy komplex logikát építsünk vele. Erre majd a `Redux`ot fogjuk használni (vagy alternatívaként megismerkedhettek, ha van kedvetek a `Zustand`del is!).
 
 > ### 💡 ÉRDEMES LEHET...
 >
