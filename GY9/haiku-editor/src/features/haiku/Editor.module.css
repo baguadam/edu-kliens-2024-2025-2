@@ -1,0 +1,7 @@
+.good {
+  background-color: hsl(100, 40%, 80%);
+  box-shadow: green 0 0 10px;
+}
+.wrong {
+  box-shadow: red 0 0 10px;
+}
