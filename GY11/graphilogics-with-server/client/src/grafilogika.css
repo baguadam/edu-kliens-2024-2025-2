@@ -1,0 +1,42 @@
+body {
+  font-family: monospace;
+  font-size: large;
+}
+#layout table {
+  border-collapse: collapse;
+  border: 2px solid black;
+}
+#layout table td {
+  border: 1px solid black;
+}
+#felso td {
+  width: 20px;
+  height: 20px;
+  vertical-align: bottom;
+}
+#felso td span {
+  display: block;
+  text-align: center;
+}
+#bal td {
+  height: 20px;
+  text-align: right;
+}
+#bal td span {
+  display: inline-block;
+  width: 20px;
+  text-align: center;
+}
+#tabla td {
+  width: 20px;
+  height: 20px;
+}
+#tabla .feher {
+  background-color: white;
+}
+#tabla .fekete {
+  background-color: black;
+}
+#tabla .szurke {
+  background-color: gray;
+}

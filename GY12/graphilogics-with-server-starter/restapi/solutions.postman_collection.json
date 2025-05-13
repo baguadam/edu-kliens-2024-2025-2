@@ -1,0 +1,186 @@
+{
+	"info": {
+		"_postman_id": "6d3c6056-4db3-4bed-944a-ba108d361090",
+		"name": "solutions",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15151253"
+	},
+	"item": [
+		{
+			"name": "add new",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"puzzleId\": 2,\r\n    \"solved\": false,\r\n    \"table\": \"[\\\"          \\\",\\\"          \\\",\\\"          \\\",\\\"          \\\",\\\"          \\\",\\\"          \\\",\\\"          \\\",\\\"          \\\",\\\"          \\\",\\\"          \\\"]\"\r\n}"
+				},
+				"url": {
+					"raw": "localhost:3030/solutions",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"solutions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "modify",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"solved\": true,\r\n    \"table\": \"[\\\"###       \\\",\\\"          \\\",\\\"          \\\",\\\"          \\\",\\\"          \\\",\\\"          \\\",\\\"          \\\",\\\"          \\\",\\\"          \\\",\\\"          \\\"]\"\r\n}"
+				},
+				"url": {
+					"raw": "localhost:3030/solutions/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"solutions",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3030/solutions/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"solutions",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list all",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3030/solutions",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"solutions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get one",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3030/solutions/2",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"solutions",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6ImFjY2VzcyJ9.eyJpYXQiOjE2NTEyMzkxNTcsImV4cCI6MTY4Mjc5Njc1NywiYXVkIjoiaHR0cHM6Ly95b3VyZG9tYWluLmNvbSIsImlzcyI6ImZlYXRoZXJzIiwic3ViIjoiMSIsImp0aSI6IjZhZThhNTEzLWE3NTctNDU3MC1iZTkwLTAxZTg2NDJmMWYyMiJ9.1cXNy8iyxcq1CHZA2NFyx9p6OjE5ug6hTbTPS5aJ7Xk",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

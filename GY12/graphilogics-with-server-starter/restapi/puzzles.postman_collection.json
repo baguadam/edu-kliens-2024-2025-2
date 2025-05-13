@@ -1,0 +1,181 @@
+{
+	"info": {
+		"_postman_id": "b55e81c5-19c8-48be-94af-26ee55528bce",
+		"name": "puzzles",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15151253"
+	},
+	"item": [
+		{
+			"name": "create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Jármű\",\r\n    \"puzzle\": \"[\\\"   #   #  \\\",\\\"  ### ### \\\",\\\"  ### ### \\\",\\\"   #   #  \\\",\\\" ### #### \\\",\\\" ### #### \\\",\\\"   #   #  \\\",\\\"### ### ##\\\",\\\" #########\\\",\\\"  ####### \\\"]\"\r\n}"
+				},
+				"url": {
+					"raw": "localhost:3030/puzzles",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"puzzles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list all",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3030/puzzles",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"puzzles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get one",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3030/puzzles/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"puzzles",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3030/puzzles/5",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"puzzles",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list paginate",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3030/puzzles?$skip=2&$limit=2",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"puzzles"
+					],
+					"query": [
+						{
+							"key": "$skip",
+							"value": "2"
+						},
+						{
+							"key": "$limit",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6ImFjY2VzcyJ9.eyJpYXQiOjE2NTA5NTUwODQsImV4cCI6MTY4MjUxMjY4NCwiYXVkIjoiaHR0cHM6Ly95b3VyZG9tYWluLmNvbSIsImlzcyI6ImZlYXRoZXJzIiwic3ViIjoiMSIsImp0aSI6ImExMzY5MjM0LWJiNTQtNDJiNy04NDk0LTg4MmRlZmVmMDg2NiJ9.Kbi2Ownci3h_C_Pd7DddmF69JCp5ttqSx6RLv6Ual-s",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
