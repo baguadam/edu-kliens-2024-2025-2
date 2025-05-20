@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "title": "DreamCatcher AI",
+    "description": "An app that records and analyzes your dreams using voice input and machine learning."
+  },
+  {
+    "id": 2,
+    "title": "PlantPal",
+    "description": "A smart assistant that reminds you when and how to water your plants, based on their type and environment."
+  },
+  {
+    "id": 3,
+    "title": "Teleport Eats",
+    "description": "Futuristic concept: food instantly 'printed' from your phone after selecting a recipe."
+  },
+  {
+    "id": 4,
+    "title": "MuseMate",
+    "description": "AI writing partner that generates story twists, character arcs, or poem lines on demand."
+  },
+  {
+    "id": 5,
+    "title": "WanderWhere",
+    "description": "Spin-the-globe-style travel app that suggests random yet budget-friendly destinations."
+  }
+]
