@@ -26,6 +26,9 @@ A `Redux Toolkit` a Redux hivatalos ajánlott eszköztára, amely leegyszerűsí
 - Egyszerűsíti a store konfigurálását (`configureStore`)
 
 ## Folyamatábra, fontosabb elemek
+[Forrás](https://www.esri.com/arcgis-blog/products/3d-gis/3d-gis/react-redux-building-modern-web-apps-with-the-arcgis-js-api)
+![image](https://github.com/user-attachments/assets/70a73bf1-eeb0-4965-8424-82f2c9902182)
+
 
 Az ábra vizuálisan bemutatja, hogyan működik a Redux alapú állapotkezelés. Nézzük, hogy melyik elem mit jelent, milyen szerepet tölt be. Ebben a részben leginkább a mögöttes működés és a "mi történik a háttérben" dolgok vannak összegyűjtve, nem pedig az "így érdemes/ajánlott megírni". Ma már nem írunk nulláról reducer függvényeket, és nem használunk kézzel írt action objektumokat – ezek helyett használjuk a `Redux Toolkit` eszközeit. Itt célja, hogy segítsen megérteni, mi történik a "motorháztető" alatt, amikor az RTK-t használjuk.
 
@@ -117,13 +120,13 @@ export const store = configureStore({
 ```
 
 A `configureStore`automatikusan beállítja az alap `thunk middleware`-t, a `reducer` kulcs alatt pedig több `slice` is kombinálható. Itt jelenleg egy slice-t hoztunk létre, ez a `counter`. Erre tekinthettek úgy, mintha a `state`-et kisebb alterekre bontanánk, jelenleg ez azt jelenti, hogy létrehoztunk benne egy `counter` alteret. Innentől kezdve nem egy globális állapotunk van, és ezen keresztül kérünk le dolgokat, például: `state.value`, hanem az altéren keresztül érjük ezeket el, például: `state.counter.value`. Ha vizuális szeretnénk látni, hogy mi történik ilyenkor, valahogy így képzelhetjük el:
-**ábra**
+
+![image](https://github.com/user-attachments/assets/64fcc5f6-452e-44be-ab08-8822d0bcb227)
 
 ### Store "provide-olása" a React számára
 
 ```jsx
 // main.jsx
-import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { Provider } from "react-redux";
